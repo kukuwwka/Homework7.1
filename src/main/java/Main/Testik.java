@@ -36,7 +36,7 @@ public class Testik {
 // Positive tests
     @Test
     public void getNewToken() {
-        String token = BookingRequest.getToken(bodyAuth).jsonPath().getString("token");
+        String token = BookingRequest.createToken(bodyAuth).jsonPath().getString("token");
         System.out.println("Получили токен: " + token);
     }
 
@@ -49,7 +49,7 @@ public class Testik {
 
     @Test
     public void createUpdateCheckBooking() {
-        String token = BookingRequest.getToken(bodyAuth).jsonPath().getString("token");
+        String token = BookingRequest.createToken(bodyAuth).jsonPath().getString("token");
         System.out.println("Получили токен: " + token);
 
         String idBooking = BookingRequest.createBooking(bodyBooking).jsonPath().getString("bookingid");
@@ -61,7 +61,7 @@ public class Testik {
 
     @Test
     public void createDeleteCheckBooking() {
-        String token = BookingRequest.getToken(bodyAuth).jsonPath().getString("token");
+        String token = BookingRequest.createToken(bodyAuth).jsonPath().getString("token");
         System.out.println("Получили токен: " + token);
 
         String idBooking = BookingRequest.createBooking(bodyBooking).jsonPath().getString("bookingid");
@@ -74,7 +74,7 @@ public class Testik {
 
 //    @Test
 //    public void negativeGetToken() {
-//        String token = BookingRequest.getToken(bodyAuth).jsonPath().getString("token");
+//        String token = BookingRequest.createToken(bodyAuth).jsonPath().getString("token");
 //        Response response = BookingRequest.getToken(bodyAuth);
 //        Assert.assertEquals(400, response.statusCode());
 //    }

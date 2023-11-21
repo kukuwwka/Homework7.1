@@ -7,7 +7,7 @@ import io.restassured.response.Response;
 public class BookingRequest {
     static String baseUrl = "https://restful-booker.herokuapp.com/";
 
-    public static Response getToken(String bodyAuth) {
+    public static Response createToken(String bodyAuth) {
         return RestAssured.given()
                 .baseUri(baseUrl + "auth")
                 .body(bodyAuth)
@@ -49,15 +49,15 @@ public class BookingRequest {
                 .contentType(ContentType.JSON)
                 .put(baseUrl + "booking/" + idBooking)
                 .then().
-                 statusCode(200)
+                statusCode(200)
                 .log()
                 .body()
                 .extract()
                 .response();
     }
 
-    public static Response deleteBooking(String bodyAuth,String idBooking, String token) {
-       return RestAssured.given()
+    public static Response deleteBooking(String bodyAuth, String idBooking, String token) {
+        return RestAssured.given()
                 .given().header("Cookie", "token=" + token)
                 .baseUri(baseUrl + "booking/" + idBooking)
                 .when()
