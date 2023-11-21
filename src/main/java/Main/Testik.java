@@ -44,7 +44,8 @@ public class Testik {
     @Test
     public void createCheckBooking() {
         String idBooking = BookingRequest.createBooking(bodyBooking).jsonPath().getString("bookingid");
-        System.out.println("Создали бронирование с id: " + idBooking);
+        BookingRequest.getBookingID(idBooking);
+        System.out.println("Создали и получили id бронирования: " + idBooking);
     }
 
     @Test
@@ -56,7 +57,8 @@ public class Testik {
         System.out.println("Создали бронирование с id: " + idBooking);
 
         BookingRequest.updateBooking(bodyUpdate, checkoutDate, idBooking, token);
-        System.out.println("Обновили дату бронирования: " + checkoutDate);
+        BookingRequest.getBookingID(idBooking);
+        System.out.println("Обновили дату бронирования: " + checkoutDate + ". id бронирования: " + idBooking);
     }
 
     @Test
