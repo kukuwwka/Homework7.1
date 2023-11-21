@@ -2,11 +2,12 @@ package Request;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 
 public class BookingRequest {
     static String baseUrl = "https://restful-booker.herokuapp.com/";
 
-    public static String getToken(String bodyAuth) {
+    public static Response getToken(String bodyAuth) {
         return RestAssured.given()
                 .baseUri(baseUrl + "auth")
                 .body(bodyAuth)
@@ -19,10 +20,10 @@ public class BookingRequest {
                 .log()
                 .body()
                 .extract()
-                .response().jsonPath().getString("token");
+                .response();
     }
 
-    public static String createBooking(String bodyBooking) {
+    public static Response createBooking(String bodyBooking) {
         return RestAssured.given()
                 .baseUri(baseUrl + "booking")
                 .body(bodyBooking)
@@ -35,10 +36,10 @@ public class BookingRequest {
                 .log()
                 .body()
                 .extract()
-                .response().jsonPath().getString("bookingid");
+                .response();
     }
 
-    public static String updateBooking(String bodyUpdate, String idBooking, String token) {
+    public static Response updateBooking(String bodyUpdate, String checkoutDate, String idBooking, String token) {
         return RestAssured.given()
                 .given().header("Cookie", "token=" + token)
                 .baseUri(baseUrl + "booking/" + idBooking)
@@ -47,15 +48,16 @@ public class BookingRequest {
                 .body()
                 .contentType(ContentType.JSON)
                 .put(baseUrl + "booking/" + idBooking)
-                .then()
+                .then().
+                 statusCode(200)
                 .log()
                 .body()
                 .extract()
-                .response().jsonPath().getString("checkout");
+                .response();
     }
 
-    public static void deleteBooking(String idBooking, String token) {
-        RestAssured.given()
+    public static Response deleteBooking(String bodyAuth,String idBooking, String token) {
+       return RestAssured.given()
                 .given().header("Cookie", "token=" + token)
                 .baseUri(baseUrl + "booking/" + idBooking)
                 .when()
