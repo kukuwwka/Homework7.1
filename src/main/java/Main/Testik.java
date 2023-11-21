@@ -20,6 +20,12 @@ public class Testik {
             "        \"checkout\" : \"2019-01-01\"\n" +
             "    },\n" +
             "    \"additionalneeds\" : \"Breakfast\"}";
+
+    static String wrongBodyBooking = "{\"firstname\" : \"Jim\",\n" +
+            "    \"lastname\" : \"Brown\",\n" +
+            "    \"totalprice\" : 111,\n" +
+            "    \"depositpaid\" : true,\n" +
+            "    \"bookingdates\" : {ehhwehh";
     static String checkoutDate = "\"2056-01-01\"";
     static String bodyUpdate = "{\n" +
             "    \"firstname\" : \"James\",\n" +
@@ -44,7 +50,10 @@ public class Testik {
     @Test
     public void createCheckBooking() {
         String idBooking = BookingRequest.createBooking(bodyBooking).jsonPath().getString("bookingid");
-        BookingRequest.getBookingID(idBooking);
+
+        Response response = BookingRequest.getBookingID(idBooking);
+        Assert.assertEquals(200,response.statusCode());
+
         System.out.println("Создали и получили id бронирования: " + idBooking);
     }
 
@@ -57,7 +66,8 @@ public class Testik {
         System.out.println("Создали бронирование с id: " + idBooking);
 
         BookingRequest.updateBooking(bodyUpdate, checkoutDate, idBooking, token);
-        BookingRequest.getBookingID(idBooking);
+        Response response = BookingRequest.getBookingID(idBooking);
+        Assert.assertEquals(200,response.statusCode());
         System.out.println("Обновили дату бронирования: " + checkoutDate + ". id бронирования: " + idBooking);
     }
 
@@ -70,6 +80,9 @@ public class Testik {
         System.out.println("Создали бронирование с id: " + idBooking);
 
         BookingRequest.deleteBooking(bodyAuth, idBooking, token);
+
+        Response response = BookingRequest.getBookingID(idBooking);
+        Assert.assertEquals(404,response.statusCode());
         System.out.println("Удалили бронирование с id: " + idBooking);
         }
     //Negative tests
@@ -80,6 +93,16 @@ public class Testik {
 //        Response response = BookingRequest.getToken(bodyAuth);
 //        Assert.assertEquals(400, response.statusCode());
 //    }
+
+    @Test
+    public void negativeCreateBooking() {
+        String idBooking = BookingRequest.createBooking(wrongBodyBooking).jsonPath().getString("bookingid");
+
+        Response response = BookingRequest.getBookingID(idBooking);
+        Assert.assertEquals(400,response.statusCode());
+
+        System.out.println("Создали и получили id бронирования: " + idBooking);
+    }
 }
 
 

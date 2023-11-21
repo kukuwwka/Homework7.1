@@ -23,8 +23,8 @@ public class BookingRequest {
                 .response();
     }
 
-    public static void getBookingID(String idBooking) {
-         RestAssured.given()
+    public static Response getBookingID(String idBooking) {
+        return RestAssured.given()
                 .baseUri(baseUrl + "booking/" + idBooking)
                 .when()
                 .get(baseUrl + "booking/" + idBooking)
